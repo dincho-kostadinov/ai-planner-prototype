@@ -20,9 +20,9 @@ Backend runs on: http://localhost:5000
 
 API Endpoints
 Method	Endpoint	Description
-POST	/api/run-agent	Sends initial plan request to Azure agent (mode: plan)
-POST	/api/update-agent	Validates or corrects current plan (mode: validate)
-POST	/api/finalize-agent	Confirms final plan (mode: finalize)
+POST /api/run-agent	Sends persons + tours → gets AI-generated plan
+POST /api/update-agent	Sends updated assignments + persons + tours → gets AI validation
+POST /api/finalize-agent	Confirms final plan → AI returns unchanged plan
 
 ## Frontend Setup
 in the root folder run
@@ -46,7 +46,7 @@ Frontend runs on: http://localhost:3000
 
 This project uses a **custom agent** hosted in Azure AI Foundry with the following behavior and rules.
 
-Agent instructions
+Agent instructions:
 
 You are a Route Assignment Agent that plans, validates, and finalizes team assignments for logistics tours.
 
@@ -198,7 +198,7 @@ RULES
 
 Match skills exactly by their "id".
 
-Never assign the same person to more than two tours unless explicitly allowed.
+Never assign the same person to more than one tours unless explicitly allowed.
 
 If a tour cannot be filled, list it under "unassignedTours" with "missingSkills".
 
@@ -282,7 +282,7 @@ Behavior
 
 Verify each tour’s skill and capacity requirements
 
-Ensure no person is assigned to more than two tours (unless allowed)
+Ensure no person is assigned to more than one tours (unless allowed)
 
 Fix or reassign if requirements aren’t met
 
@@ -361,3 +361,5 @@ Expected Output
     }
   ]
 }
+
+![alt text](image.png)
